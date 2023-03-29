@@ -24,7 +24,7 @@ jobs:
             echo -n "::error title=$(echo $line | cut -d ':' -f 3 | cut -d ' ' -f 2) coding style error,"
             echo -n "file=$(echo $line | sed 's/.\///' | cut -d ':' -f 1),"
             echo -n "line=$(echo $line | cut -d ':' -f 2)::"
-            echo "::$(echo $line | cut -d ':' -f 4)"
+            echo "$(echo $line | cut -d ':' -f 4)"
           done;
           if [ -s coding-style-reports.log ]; then
             error 1
