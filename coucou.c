@@ -12,8 +12,7 @@ int main(void) {
     kk
     kk
     kk
-    kk
-    kk
+    kk    kk
     kk
     kk
     kk
