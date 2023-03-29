@@ -1,0 +1,31 @@
+name: chocolatine
+on: 
+  push:
+    branches:
+      - '*'
+      - '!ga-ignore-*'
+  pull-request:
+    branches:
+      - '*'
+      - '!ga-ignore-*'
+jobs:
+  check_coding_style:
+    name: check_coding_style
+    runs-on: ubuntu-latest
+    container: ghcr.io/epitech/coding-style-checker:latest
+    uses: actions/checkout@v3
+    steps:
+      - name: Check Coding Style
+        run: |
+          check.sh $(pwd) $(pwd)
+          cat coding-style-reports.log |
+          while read line; do 
+            echo -n "::error title=coding style error"
+            echo -n "file=$(echo $line | sed 's/.\///' | cut -d ':' -f 1),"
+            echo -n "line=$(echo $line | cut -d ':' -f 2)::"
+            echo -n "$(echo $line | cut -d ':' -f 3 | cut -d ' ' -f 2)"
+            echo "::$(echo $line | cut -d ':' -f 4)"
+          done;
+          if [ -s coding-style-reports.log ]; then
+            error 1
+          fi
