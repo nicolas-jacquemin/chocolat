@@ -72,15 +72,15 @@ jobs:
 
       - name: Run Tests
         timeout-minutes: 2
-        run: make tests_run
-  push_to_mirror:
-    name: push_to_mirror
-    runs-on: ubuntu-latest
-    on: 
+        run: make tests_runon:
       push:
         branches:
           - '*'
           - '!ga-ignore-*'
+  push_to_mirror:
+    name: push_to_mirror
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name }} == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
