@@ -62,6 +62,7 @@ jobs:
           for executables in ${EXECUTABLES//,/ }; do
             if ! test -f $(echo executables); then
               echo "An exectuable is not present in the folder"
+              exit 1
             fi
           done
 
