@@ -54,9 +54,9 @@ jobs:
 
       - name: Test Executables
         run: | 
-        echo "${{env.EXECUTABLES}}" | while read -d ',' ex; do
-          echo $ex
-        done cat a | rev | cut -d ',' -f 1 | rev
+          echo "${{env.EXECUTABLES}}" | while read -d ',' ex; do
+            echo $ex
+          done cat a | rev | cut -d ',' -f 1 | rev
   run_tests:
     name: run_tests
     runs-on: ubuntu-latest
