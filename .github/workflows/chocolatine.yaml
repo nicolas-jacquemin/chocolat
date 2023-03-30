@@ -6,13 +6,11 @@ env:
 
 on: 
   push:
-    branches:
-      - '*'
-      - '!ga-ignore-*'
+    branches-ignore:
+      - '!ga-ignore-**'
   pull_request:
-    branches:
-      - '*'
-      - '!ga-ignore-*'
+    branches-ignore:
+      - '!ga-ignore-**'
 
 jobs:
   check_coding_style:
@@ -60,7 +58,7 @@ jobs:
       - name: Test Executables
         run: | 
           for executables in ${EXECUTABLES//,/ }; do
-            if ! test -f $(echo executables); then
+            if ! test -f $(echo $executables); then
               echo "An exectuable is not present in the folder"
               exit 1
             fi
