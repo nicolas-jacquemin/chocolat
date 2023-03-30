@@ -36,7 +36,7 @@ jobs:
             echo "$(echo $line | cut -d ':' -f 4)"
           done;
           if [ -s coding-style-reports.log ]; then
-            error 1
+            exit 1
           fi
 
   check_program_compilation:
