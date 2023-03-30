@@ -9,7 +9,7 @@ SRC = choco.c
 
 OBJ = $(SRC:.c=.o)
 
-NAME = choco
+NAME = chocolat
 
 all: $(NAME)
 
