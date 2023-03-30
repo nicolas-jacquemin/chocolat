@@ -38,6 +38,7 @@ jobs:
           if [ -s coding-style-reports.log ]; then
             error 1
           fi
+
   check_program_compilation:
     name: check_program_compilation
     runs-on: ubuntu-latest
@@ -60,6 +61,7 @@ jobs:
           echo "${{env.EXECUTABLES}}" | while read -d ',' ex; do
             echo $ex
           done cat a | rev | cut -d ',' -f 1 | rev
+
   run_tests:
     name: run_tests
     runs-on: ubuntu-latest
@@ -72,11 +74,8 @@ jobs:
 
       - name: Run Tests
         timeout-minutes: 2
-        run: make tests_runon:
-      push:
-        branches:
-          - '*'
-          - '!ga-ignore-*'
+        run: make tests_run
+
   push_to_mirror:
     name: push_to_mirror
     runs-on: ubuntu-latest
