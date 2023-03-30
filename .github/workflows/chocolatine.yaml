@@ -1,4 +1,7 @@
 name: chocolatine
+environment:
+  MIRROR_URL: git@github.com:EpitechPromo2027/B-DOP-200-LIL-2-1-chocolatine-nicolas1.jacquemin.git
+  EXECUTABLES: choco
 on: 
   push:
     branches:
@@ -16,6 +19,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Check Coding Style
         run: |
           check.sh $(pwd) $(pwd)
@@ -29,3 +35,59 @@ jobs:
           if [ -s coding-style-reports.log ]; then
             error 1
           fi
+  check_program_compilation:
+    name: check_program_compilation
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Make
+        timeout: 2
+        run: make
+
+      - name: Make Clean
+        run: make clean
+
+      - name: Test Executables
+        run: | 
+        echo "${{env.EXECUTABLES}}" | while read -d ',' ex; do
+          echo $ex
+        done cat a | rev | cut -d ',' -f 1 | rev
+  run_tests:
+    name: run_tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run Tests
+        timeout: 2
+        run: make tests_run
+  push_to_mirror:
+    name: push_to_mirror
+    runs-on: ubuntu-latest
+    on: 
+      push:
+        branches:
+          - '*'
+          - '!ga-ignore-*'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: push to mirror
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{env.MIRROR_URL}}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
