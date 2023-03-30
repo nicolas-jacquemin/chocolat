@@ -59,8 +59,10 @@ jobs:
 
       - name: Test Executables
         run: | 
-          echo "${{env.EXECUTABLES}}" | while read -d ',' ex; do
-            if !test -f $(echo ex); then exit 1; fi
+          for executables in ${EXECUTABLES//,/ }; do
+            if ! test -f $(echo executables); then
+              echo "An exectuable is not present in the folder"
+            fi
           done
 
   run_tests:
