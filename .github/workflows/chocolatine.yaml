@@ -60,8 +60,8 @@ jobs:
       - name: Test Executables
         run: | 
           echo "${{env.EXECUTABLES}}" | while read -d ',' ex; do
-            echo $ex
-          done cat a | rev | cut -d ',' -f 1 | rev
+            if !test -f $(echo ex); then exit 1; fi
+          done
 
   run_tests:
     name: run_tests
